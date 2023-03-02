@@ -1,0 +1,49 @@
+﻿@model MeterReadingProject.Models.MetersReadingData
+
+
+
+
+@{
+    ViewData["Title"] = "MetersReading";
+}
+
+<h1>MetersReading</h1>
+
+<h4>MetersReadingData</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="MetersReading">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="date" class="control-label"></label>
+                <input asp-for="date" class="form-control" />
+                <span asp-validation-for="date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MeterName" class="control-label"></label>
+                @*<input asp-for="MeterName" class="form-control" />*@
+
+                @Html.DropDownListFor(m => m.MeterName , new List<SelectListItem> {
+                new SelectListItem { Text ="meter" , Value="1" },
+
+                },"--select Role --", new { @class = "form-control" })
+                <span asp-validation-for="MeterName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MeterReading" class="control-label"></label>
+                <input asp-for="MeterReading" class="form-control" />
+                <span asp-validation-for="MeterReading" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

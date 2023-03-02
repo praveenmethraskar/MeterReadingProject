@@ -1,0 +1,164 @@
+﻿@using Microsoft.AspNetCore.Http;
+@*@model MeterReadingProject.Models.ViewModel*@
+@model MeterReadingProject.Models.MetersReadingData
+@{
+    //ViewData["Title"] = "Meters";
+    ViewBag.Title = "Meters";
+}
+@*@{
+    IEnumerable<AddMetersModel> addmeters = ViewData["AddMeters"] as IEnumerable<AddMetersModel>;
+    @using Microsoft.AspNetCore.Http
+}*@
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link href="~/css/Dashboard.css" rel="stylesheet" />
+<link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+
+<div class="sidebar active">
+    <div class="logo_content">
+        <div class="logo">
+            <i class='bx bxl-c-plus-plus' style="font-size: 30px;"></i>
+            <div class="logoname" style="margin-left: 5px;">Meter Reading</div>
+        </div>
+        <i class='bx bx-menu-alt-right' id="btn" style="font-size: 25px;"></i>
+    </div>
+    <ul class="nav_list">
+        <li>
+
+            <i class='bx bx-search'></i>
+            <input type="text" placeholder="Search...">
+            <span class="tooltip">Search</span>
+        </li>
+        <li>
+            <a href="#">
+                <i class='bx bx-grid-alt'></i>
+                <span class="link_names">Dashboard</span>
+            </a>
+            <span class="tooltip">Dashboard</span>
+        </li>
+        <li>
+            <a href="https://localhost:44355/Employee/AddMeters">
+                <i class='bx bx-user'></i>
+                <span class="link_names">Add Meters</span>
+            </a>
+            <span class="tooltip">Add Meters</span>
+        </li>
+        <li>
+            <a href="https://localhost:44355/Employee/meters">
+                <i class='bx bx-chat'></i>
+                <span class="link_names">Add Meter Readings</span>
+            </a>
+            <span class="tooltip">Add Meter Readings</span>
+        </li>
+        <li>
+            <a href="https://localhost:44355/Employee/ListMeterReadings">
+                <i class='bx bx-pie-chart-alt-2'></i>
+                <span class="link_names">List Meter Readings</span>
+            </a>
+            <span class="tooltip">Report</span>
+        </li>
+        @* <li>
+        <a href="#">
+        <i class='bx bx-folder'></i>
+        <span class="link_names">Files</span>
+        </a>
+        <span class="tooltip">Files</span>
+        </li>
+        <li>
+        <a href="#">
+        <i class='bx bx-cart-alt'></i>
+        <span class="link_names">Orders</span>
+        </a>
+        <span class="tooltip">Orders</span>
+        </li>
+        <li>
+        <a href="#">
+        <i class='bx bx-heart'></i>
+        <span class="link_names">Liked</span>
+        </a>
+        <span class="tooltip">Liked</span>
+        </li>
+        <li>
+        <a href="#">
+        <i class='bx bx-cog'></i>
+        <span class="link_names">Settings</span>
+        </a>
+        <span class="tooltip">Settings</span>
+        </li>*@
+    </ul>
+    <div class="profile_content">
+        <div class="profile">
+            <div class="profile_details">
+
+                <div class="name_job">
+                    <div class="name">@Context.Session.GetString("Email")</div>
+                    <div class="job">Branch Manager</div>
+                </div>
+            </div>
+            <i class='bx bx-log-out' id="log_out"></i>
+        </div>
+    </div>
+</div>
+<div class="home_content">
+    <div class="text">
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="Meters">
+                    <div class="form-group">
+                        <label asp-for="date" type="date" class="control-label"></label>
+                        <input asp-for="date" type="date" class="form-control" />
+                        <span asp-validation-for="date" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MeterName" class="control-label"></label>
+                        <select asp-for="MeterName">
+                            <option value="0">Select an Meter Name</option>
+                            @foreach (var item in ViewBag.Model)
+                            {
+                                <option value="@item.Meter_id"> @item.MeterName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="MeterReading" class="control-label"></label>
+                        <input asp-for="MeterReading" class="form-control" />
+                        <span asp-validation-for="MeterReading" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BranchName" class="form-control-label">Branch Name</label>
+                        @*<input asp-for        ="BranchName" class="form-control" />*@
+                        @Html.DropDownListFor(m => m.BranchName , new List<SelectListItem> {
+                            new SelectListItem { Text ="Ahemdabad" , Value="1" },
+                            new SelectListItem { Text ="Jodhpur" , Value="2" },
+                            new SelectListItem { Text="Hyderabad",Value="3"},
+                            new SelectListItem { Text="Mumbai",Value="4"},
+                            new SelectListItem { Text="Amaravati",Value="5"}
+
+                        },"--select Branch --", new { @class = "form-co        ntrol" })
+                <span asp-validation-for="BranchName" class="text-danger"></span>
+                    </div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let btn = document.querySelector("#btn");
+    let sidebar = document.querySelector(".sidebar");
+    let searchBtn = document.querySelector(".bx-search")
+
+    btn.onclick = function () {
+        sidebar.classList.toggle("active");
+    }
+    searchBtn.onclick = function () {
+        sidebar.classList.toggle("active");
+    }
+</script>
+
+
+

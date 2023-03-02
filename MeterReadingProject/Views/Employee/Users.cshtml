@@ -1,0 +1,110 @@
+﻿@using Microsoft.AspNetCore.Http
+
+@{
+    ViewData["Title"] = "Users";
+}
+<link href="~/css/Dashboard.css" rel="stylesheet" />
+<link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+
+<div class="sidebar active">
+    <div class="logo_content">
+        <div class="logo">
+            <i class='bx bxl-c-plus-plus' style="font-size: 30px;"></i>
+            <div class="logoname" style="margin-left: 5px;">Meter Reading</div>
+        </div>
+        <i class='bx bx-menu-alt-right' id="btn" style="font-size: 25px;"></i>
+    </div>
+    <ul class="nav_list">
+        <li>
+
+            <i class='bx bx-search'></i>
+            <input type="text" placeholder="Search...">
+            <span class="tooltip">Search</span>
+        </li>
+        <li>
+            <a href="#">
+                <i class='bx bx-grid-alt'></i>
+                <span class="link_names">Dashboard</span>
+            </a>
+            <span class="tooltip">Dashboard</span>
+        </li>
+        <li>
+            <a href="https://localhost:44355/Employee/AddMeters">
+                <i class='bx bx-user'></i>
+                <span class="link_names">Add Meters</span>
+            </a>
+            <span class="tooltip">Add Meters</span>
+        </li>
+        <li>
+            <a href="https://localhost:44355/Employee/meters">
+                <i class='bx bx-chat'></i>
+                <span class="link_names">Add Meter Readings</span>
+            </a>
+            <span class="tooltip">Add Meter Readings</span>
+        </li>
+        <li>
+            <a href="https://localhost:44355/Employee/ListMeterReadings">
+                <i class='bx bx-pie-chart-alt-2'></i>
+                <span class="link_names">List Meter Readings</span>
+            </a>
+            <span class="tooltip">Report</span>
+        </li>
+
+       @* <li>
+            <a href="#">
+                <i class='bx bx-folder'></i>
+                <span class="link_names">Files</span>
+            </a>
+            <span class="tooltip">Files</span>
+        </li>
+        <li>
+            <a href="#">
+                <i class='bx bx-cart-alt'></i>
+                <span class="link_names">Orders</span>
+            </a>
+            <span class="tooltip">Orders</span>
+        </li>
+        <li>
+            <a href="#">
+                <i class='bx bx-heart'></i>
+                <span class="link_names">Liked</span>
+            </a>
+            <span class="tooltip">Liked</span>
+        </li>
+        <li>
+            <a href="#">
+                <i class='bx bx-cog'></i>
+                <span class="link_names">Settings</span>
+            </a>
+            <span class="tooltip">Settings</span>
+        </li>*@
+    </ul>
+    <div class="profile_content">
+        <div class="profile">
+            <div class="profile_details">
+
+                <div class="name_job">
+                    <div class="name">@Context.Session.GetString("Email")</div>
+                    <div class="job">Employee</div>
+                </div>
+            </div>
+            <i class='bx bx-log-out' id="log_out"></i>
+        </div>
+    </div>
+</div>
+<div class="home_content">
+    <div class="text">Home Content Here...</div>
+</div>
+<script>
+    let btn = document.querySelector("#btn");
+    let sidebar = document.querySelector(".sidebar");
+    let searchBtn = document.querySelector(".bx-search")
+
+    btn.onclick = function () {
+        sidebar.classList.toggle("active");
+    }
+    searchBtn.onclick = function () {
+        sidebar.classList.toggle("active");
+    }
+</script>
+

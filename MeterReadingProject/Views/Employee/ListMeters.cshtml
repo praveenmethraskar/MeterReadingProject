@@ -1,0 +1,75 @@
+﻿@*@model MeterReadingProject.Models.AddMetersModel*@
+@using Microsoft.AspNetCore.Http
+@model IEnumerable<MeterReadingProject.Models.AddMetersModel>
+
+
+
+@{
+    ViewData["Title"] = "ListMeters";
+}
+
+<h1>ListMeters</h1>
+
+<div>
+    <h4>AddMetersModel</h4>
+    <hr />
+    <dl class="row">
+        @*<dt class = "col-sm-2">
+        @Html.DisplayNameFor(model => model.Meter_id)
+        </dt>
+
+        <dt class = "col-sm-2">
+        @Html.DisplayNameFor(model => model.MeterName)
+        </dt>
+
+        <dt class = "col-sm-2">
+        @Html.DisplayNameFor(model => model.BranchName)
+        </dt>
+
+        <dt class = "col-sm-2">
+        @Html.DisplayNameFor(model => model.RegionName)
+        </dt>
+
+        <dt class = "col-sm-2">
+        @Html.DisplayNameFor(model => model.ClusterName)
+        </dt>*@
+
+    </dl>
+     <div class="form-group">
+                <select >
+                    <option value="0">Select an item</option>
+                    @foreach (var item in Model)
+                    {
+                        <option value="@item.Meter_id"> @Html.DisplayFor(modelItem => item.MeterName)</option>
+                    }
+                </select>
+
+      </div>
+ @*   @foreach (var item in Model)
+    {
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Meter_id)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(modelItem => item.Meter_id)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.MeterName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(modelItem => item.MeterName)
+            </dd>
+            <dd class = "col-sm-10">
+        @Html.DisplayFor(modelItem => item.BranchName)
+        </dd>
+        <dd class = "col-sm-10">
+        @Html.DisplayFor(modelItem => item.RegionName)
+        </dd>
+        <dd class = "col-sm-10">
+        @Html.DisplayFor(modelItem => item.ClusterName)
+        </dd>
+        </dl>
+    }*@
+</div>
+
