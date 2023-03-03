@@ -17,5 +17,7 @@ namespace MeterReadingProject.Models
         public int BranchName { get; set; }
         public string BranchName1 { get;set; }
 
+		public int units { get; set; }
+
 	}
 }

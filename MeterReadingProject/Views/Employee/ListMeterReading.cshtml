@@ -1,9 +1,12 @@
-﻿@using Microsoft.AspNetCore.Http
-
+﻿@using Microsoft.AspNetCore.Http;
+@*@model MeterReadingProject.Models.MetersReadingData*@
+@model IEnumerable<MeterReadingProject.Models.MetersReadingData>
 @{
-    ViewData["Title"] = "Admin";
+    ViewData["Title"] = "ListMeterReading";
 }
 
+
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 <link href="~/css/Dashboard.css" rel="stylesheet" />
 <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
 
@@ -50,34 +53,7 @@
             </a>
             <span class="tooltip">Report</span>
         </li>
-       @* <li>
-            <a href="#">
-                <i class='bx bx-folder'></i>
-                <span class="link_names">Files</span>
-            </a>
-            <span class="tooltip">Files</span>
-        </li>
-        <li>
-            <a href="#">
-                <i class='bx bx-cart-alt'></i>
-                <span class="link_names">Orders</span>
-            </a>
-            <span class="tooltip">Orders</span>
-        </li>
-        <li>
-            <a href="#">
-                <i class='bx bx-heart'></i>
-                <span class="link_names">Liked</span>
-            </a>
-            <span class="tooltip">Liked</span>
-        </li>
-        <li>
-            <a href="#">
-                <i class='bx bx-cog'></i>
-                <span class="link_names">Settings</span>
-            </a>
-            <span class="tooltip">Settings</span>
-        </li>*@
+
     </ul>
     <div class="profile_content">
         <div class="profile">
@@ -93,7 +69,59 @@
     </div>
 </div>
 <div class="home_content">
-    <div class="text">Home Content Here...</div>
+    <div class="text">
+        <div>
+
+            <!--Table-->
+            <table class="table table-striped w-auto">
+
+                <!--Table head-->
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.date)</th>
+                        <th> @Html.DisplayNameFor(model => model.MeterName)</th>
+                        <th> @Html.DisplayNameFor(model => model.MeterReading)</th>
+                        <th> @Html.DisplayNameFor(model => model.BranchName)</th>
+                        <th>edit</th>
+
+
+                    </tr>
+                </thead>
+                <!--Table head-->
+                <!--Table body-->
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr class="table-info">
+
+                            <td> @Html.DisplayFor(model => item.date) </td>
+                            <td> @Html.DisplayFor(model => item.MeterName1)</td>
+                            <td> @Html.DisplayFor(model => item.MeterReading) </td>
+                            <td> @Html.DisplayFor(model => item.BranchName1) </td>
+                            <td>
+                                @*@Html.ActionLink("Edit", new {item.id})*@
+                                <a href="@Url.Action("Edit", new { id = item.id })">Edit</a>
+                            <td>
+                                    @*@Html.ActionLink("Show", new {Mid = item.id})*@
+                                <a href="@Url.Action("Show", new { ID = item.MeterName })">Show Report</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <!--Table body-->
+
+
+            </table>
+            <!--Table-->
+        </div>
+
+    </div>
+    <div>
+        @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        <a asp-action="Index">Back to List</a>
+    </div>
+
 </div>
 <script>
     let btn = document.querySelector("#btn");

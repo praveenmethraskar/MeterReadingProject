@@ -59,7 +59,7 @@
 
                 <div class="name_job">
                     <div class="name">@Context.Session.GetString("Email")</div>
-                    <div class="job">Branch Manager</div>
+                    <div class="job">@Context.Session.GetString("RoleName")</div>
                 </div>
             </div>
             <a asp-action="Logout"> <i class='bx bx-log-out' id="log_out"></i></a>
@@ -100,7 +100,10 @@
                                         <td> @Html.DisplayFor(model => item.BranchName1) </td>
                                         <td>@*@Html.ActionLink("Edit", new {item.id})*@
                                                 <a href="@Url.Action("Edit", new { id = item.id })">Edit</a>
-                                                        </td>
+                                        <td>
+                                            @*@Html.ActionLink("Show", new {Mid = item.id})*@
+                                <a href="@Url.Action("Show", new { ID = item.MeterName })">Show Report</a>
+                                        </td>
                                 </tr>
                              }
                          </tbody>

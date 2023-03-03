@@ -3,6 +3,7 @@ using MeterReadingProject.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Security.Cryptography;
 
 namespace MeterReadingProject.Controllers
 {
@@ -184,6 +185,14 @@ namespace MeterReadingProject.Controllers
             var meterreadinglist = employeeRL.GetAllMetersReadings(BranchName1);
             return View(meterreadinglist);
         }
+        [HttpGet]
+        public IActionResult ListMeterReading()
+        {
+            //var BranchName1 = HttpContext.Session.GetString();
+
+            var meterreadinglist = employeeRL.GetAllMetersReading();
+            return View(meterreadinglist);
+        }
 
         [HttpGet]
         public ActionResult Edit(int ID)
@@ -210,6 +219,21 @@ namespace MeterReadingProject.Controllers
                 }
             }
             return View(enterMetersReading);
+        }
+
+
+        [HttpGet]
+        public ActionResult Show(int ID)
+        {
+            var BranchName1 = HttpContext.Session.GetString("branch_name");
+
+            var meterreadinglist = employeeRL.ShowReport(BranchName1, ID);
+            ViewBag.Model = meterreadinglist;
+            return View(meterreadinglist);
+            //var BranchName1 = HttpContext.Session.GetString("branch_name");
+            //var meterlist = employeeRL.ShowReport(BranchName1,ID);
+            //ViewBag.Model = meterlist;
+            //return View();
         }
 
     }

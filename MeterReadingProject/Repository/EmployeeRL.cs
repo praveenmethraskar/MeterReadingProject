@@ -1,4 +1,6 @@
 ﻿using MeterReadingProject.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -8,6 +10,7 @@ using System.Data.SqlClient;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace MeterReadingProject.Repository
 {
@@ -137,7 +140,7 @@ namespace MeterReadingProject.Repository
         //}
 
 
-		public IEnumerable<AddMetersModel> GetAllMeters()
+        public IEnumerable<AddMetersModel> GetAllMeters()
 		{
 			sqlConnection = new SqlConnection(dbpath);
 			try
@@ -156,7 +159,7 @@ namespace MeterReadingProject.Repository
 						meterlist.Add(new AddMetersModel
 					    {
 							Meter_id = Convert.ToInt32(reader["id"]),
-							MeterName = reader["MeterName"].ToString(),
+							MeterName = reader["MeterName1"].ToString(),
 							BranchName = Convert.ToInt32(reader["Branch_id"]),
 							RegionName = Convert.ToInt32(reader["Region_id"]),
 							ClusterName = Convert.ToInt32(reader["cluster_id"]),
@@ -244,8 +247,6 @@ namespace MeterReadingProject.Repository
                 SqlCommand command = new SqlCommand("GetAllMetersReadings", sqlConnection);
                 command.CommandType = System.Data.CommandType.StoredProcedure;
 
-                
-
                 sqlConnection.Open();
                 command.Parameters.AddWithValue("branch_name", BranchName1);
 
@@ -259,8 +260,8 @@ namespace MeterReadingProject.Repository
                         {
                             id = Convert.ToInt32(reader["id"]),
                             date = reader["Mdate"].ToString(),
-                            //MeterName = Convert.ToInt32(reader["MeterName"]),
-                            MeterName1 = reader["MeterName"].ToString(),
+                            MeterName = Convert.ToInt32(reader["MeterName"]),
+                            MeterName1 = reader["MeterName1"].ToString(),
                             MeterReading = reader["Reading"].ToString(),
                             BranchName1 = reader["branch_name"].ToString(),
 
@@ -283,5 +284,100 @@ namespace MeterReadingProject.Repository
             }
         }
 
+
+
+        public IEnumerable<MetersReadingData> GetAllMetersReading()
+        {
+
+            sqlConnection = new SqlConnection(dbpath);
+            try
+            {
+                SqlCommand command = new SqlCommand("GetAllMetersReading", sqlConnection);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                sqlConnection.Open();
+                //command.Parameters.AddWithValue("branch_name", BranchName1);
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        meterreadings.Add(new MetersReadingData
+                        {
+                            id = Convert.ToInt32(reader["id"]),
+                            date = reader["Mdate"].ToString(),
+                            MeterName = Convert.ToInt32(reader["MeterName"]),
+                            MeterName1 = reader["MeterName1"].ToString(),
+                            MeterReading = reader["Reading"].ToString(),
+                            BranchName1 = reader["branch_name"].ToString(),
+
+                        });
+                    }
+                    return meterreadings;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
+
+
+        public IEnumerable<MetersReadingData> ShowReport(string BranchName1,int MeterName)
+        {
+
+            sqlConnection = new SqlConnection(dbpath);
+            try
+            {
+                SqlCommand command = new SqlCommand("ShowItem", sqlConnection);
+                command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                sqlConnection.Open();
+                command.Parameters.AddWithValue("branch_name", BranchName1);
+                command.Parameters.AddWithValue("MeterName", MeterName);
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        meterreadings.Add(new MetersReadingData
+                        {
+                            //id = Convert.ToInt32(reader["id"]),
+                            date = reader["Mdate"].ToString(),
+                            MeterName = Convert.ToInt32(reader["MeterName"]),
+                            MeterName1 = reader["MeterName1"].ToString(),
+                            MeterReading = reader["Reading"].ToString(),
+                            BranchName1 = reader["branch_name"].ToString(),
+                            units = Convert.ToInt32(reader["units"]),
+
+                        });
+                    }
+                    return meterreadings;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                sqlConnection.Close();
+            }
+        }
     }
 }

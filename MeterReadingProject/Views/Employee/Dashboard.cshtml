@@ -49,13 +49,7 @@
             </a>
             <span class="tooltip">Report</span>
         </li>
-        <li>
-            <a href="#">
-                <i class='bx bx-folder'></i>
-        <span class="link_names">@Context.Session.GetString("branch_name")</span>
-            </a>
-            <span class="tooltip">Files</span>
-        </li>
+       
         @*<li>
             <a href="#">
                 <i class='bx bx-cart-alt'></i>
@@ -90,7 +84,7 @@
                     </div>
                 </div>
             </div>
-            <i class='bx bx-log-out' id="log_out"></i>
+            <a asp-action="Logout"> <i class='bx bx-log-out' id="log_out"></i></a>
         </div>
     </div>
 </div>

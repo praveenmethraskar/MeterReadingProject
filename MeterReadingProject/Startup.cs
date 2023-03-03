@@ -27,12 +27,17 @@ namespace MeterReadingProject
             services.AddControllersWithViews();
             services.AddTransient<IEmployeeRL, EmployeeRL>();
             services.AddTransient<IAddMetersRL,AddMetersRL>();
-			services.AddSession(options =>
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
 			{
-				options.IdleTimeout = TimeSpan.FromMinutes(1);
+				//options.IdleTimeout = TimeSpan.FromMinutes(1);
 				options.Cookie.HttpOnly = true;
-				options.Cookie.IsEssential = true;
-			});
+				//options.Cookie.IsEssential = true;
+
+                options.Cookie.Name = ".MyApp.Session";
+                options.IdleTimeout = TimeSpan.FromSeconds(3600);
+                options.Cookie.IsEssential = true;
+            });
             
 		}
 

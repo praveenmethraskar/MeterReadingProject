@@ -68,25 +68,25 @@ SELECT * FROM users inner join Branch on  users.Branch_id = Branch.id
 inner join tbl_Role on users.RoleId = tbl_Role.RoleId;
 
 create table AddMeters(id int identity(1,1) primary key,
-						MeterName varchar(50),
+						MeterName1 varchar(50),
 						Branch_id int foreign key references Branch(id),
 						Region_id int foreign key references Region(id),
 						cluster_id int foreign key references Cluster(id));
-
+exec sp_rename 'AddMeters.MeterName' , 'MeterName1','Column';
 select * from AddMeters;
 
 Go
 CREATE OR Alter PROCEDURE [dbo].[SP_AddMeters]
 (
-@MeterName varchar(50),
+@MeterName1 varchar(50),
 @Branch_id int,
 @Region_id int,
 @cluster_id int
 )
 as 
 Begin 
-insert into AddMeters(MeterName,Branch_id,Region_id,cluster_id)
-values			 (@MeterName,@Branch_id,@Region_id,@cluster_id)
+insert into AddMeters(MeterName1,Branch_id,Region_id,cluster_id)
+values			 (@MeterName1,@Branch_id,@Region_id,@cluster_id)
 End
 
 
@@ -98,9 +98,9 @@ begin
 select * from AddMeters
 end  
 
-exec GetAllMeters @MeterName = 'Meter A';
+exec GetAllMeters @MeterName1 = 'Meter A';
 
-select AddMeters.MeterName, Branch.branch_name from AddMeters inner join Branch on  AddMeters.id = Branch.id;
+select AddMeters.MeterName1, Branch.branch_name from AddMeters inner join Branch on  AddMeters.id = Branch.id;
 
 
 create table MetersReading(id int identity(1,1) primary key, Mdate varchar(50), MeterName int foreign key references AddMeters(id),
@@ -123,10 +123,10 @@ insert into MetersReading(Mdate, MeterName,Reading,branchid)
 	values (@Mdate,@MeterName,@Reading,@branchid)
 End
 
-select MetersReading.id, AddMeters.MeterName,MetersReading.Reading ,MetersReading.Mdate from MetersReading
+select MetersReading.id, AddMeters.MeterName1,MetersReading.Reading ,MetersReading.Mdate from MetersReading
 inner join AddMeters on  MetersReading.id = AddMeters.id ;
 
-select MetersReading.id, AddMeters.MeterName,MetersReading.Reading ,MetersReading.Mdate from MetersReading
+select MetersReading.id, AddMeters.MeterName1,MetersReading.Reading ,MetersReading.Mdate from MetersReading
 inner join AddMeters on  MetersReading.id = AddMeters.id  ;
 drop table MetersReading;
 
@@ -140,22 +140,37 @@ begin
 --select MetersReading.id,MetersReading.MeterName,MetersReading.Mdate, AddMeters.MeterName,MetersReading.Reading,Branch.branch_name  from MetersReading
 --inner join AddMeters on  MetersReading.id = AddMeters.id
 --inner join Branch on AddMeters.Branch_id = Branch.id;
-select MetersReading.id,MetersReading.Mdate, AddMeters.MeterName,MetersReading.Reading,Branch.branch_name  from MetersReading
+select MetersReading.id,MetersReading.MeterName,MetersReading.Mdate, AddMeters.MeterName1,MetersReading.Reading,Branch.branch_name  from MetersReading
 inner join AddMeters on  MetersReading.MeterName = AddMeters.id
 inner join Branch on AddMeters.Branch_id = Branch.id where branch_name = @branch_name;
 end  
 
 
+Go
+create or alter procedure GetAllMetersReading
+as  
+begin  
+--select MetersReading.id,MetersReading.MeterName,MetersReading.Mdate, AddMeters.MeterName,MetersReading.Reading  from MetersReading
+--inner join AddMeters on  MetersReading.id = AddMeters.id ;
+
+--select MetersReading.id,MetersReading.MeterName,MetersReading.Mdate, AddMeters.MeterName,MetersReading.Reading,Branch.branch_name  from MetersReading
+--inner join AddMeters on  MetersReading.id = AddMeters.id
+--inner join Branch on AddMeters.Branch_id = Branch.id;
+select MetersReading.id,MetersReading.MeterName,MetersReading.Mdate, AddMeters.MeterName1,MetersReading.Reading,Branch.branch_name  from MetersReading
+inner join AddMeters on  MetersReading.MeterName = AddMeters.id
+inner join Branch on AddMeters.Branch_id = Branch.id
+end  
+
 select * from MetersReading
 
-select MetersReading.id,MetersReading.MeterName,MetersReading.Mdate, AddMeters.MeterName,MetersReading.Reading, Branch.branch_name  from MetersReading
+select MetersReading.id,MetersReading.MeterName,MetersReading.Mdate, AddMeters.MeterName1,MetersReading.Reading, Branch.branch_name  from MetersReading
 inner join AddMeters on  MetersReading.id = AddMeters.id 
 inner join Branch on MetersReading.id = Branch.id;
 
-select MetersReading.id,MetersReading.MeterName,MetersReading.Mdate, AddMeters.MeterName,MetersReading.Reading  from MetersReading
+select MetersReading.id,MetersReading.MeterName,MetersReading.Mdate, AddMeters.MeterName1,MetersReading.Reading  from MetersReading
 inner join AddMeters on  MetersReading.id = AddMeters.id;
 
-select MetersReading.id,MetersReading.MeterName,MetersReading.Mdate, AddMeters.MeterName,MetersReading.Reading,Branch.branch_name  from MetersReading
+select MetersReading.id,MetersReading.MeterName,MetersReading.Mdate, AddMeters.MeterName1,MetersReading.Reading,Branch.branch_name  from MetersReading
 inner join AddMeters on  MetersReading.id = AddMeters.id
 inner join Branch on AddMeters.Branch_id = Branch.id;
 
@@ -176,19 +191,47 @@ BEGIN
 END
 
 
-SELECT MetersReading.id,MetersReading.MeterName,MetersReading.Mdate, AddMeters.MeterName,MetersReading.Reading  from MetersReading
+SELECT MetersReading.id,MetersReading.MeterName,MetersReading.Mdate, AddMeters.MeterName1,MetersReading.Reading  from MetersReading
 inner join AddMeters on  MetersReading.MeterName = AddMeters.id  ORDER BY Mdate ASC ;
 
 SELECT 	
-  MeterName,
+  MetersReading.MeterName,
+  AddMeters.MeterName1,
   Mdate,
   Reading,
-  LAG(Reading) OVER (ORDER BY Mdate ) AS previous_day,
-  Reading - LAG(Reading) OVER (ORDER BY MeterName ) AS units
-FROM MetersReading
-WHERE MeterName = 2
+  Branch.branch_name,
+  --LAG(Reading) OVER (ORDER BY Mdate ) AS previous_day,
+  Reading - LAG(Reading,1,Reading) OVER (ORDER BY MetersReading.MeterName ) AS units
+FROM MetersReading inner join AddMeters on  MetersReading.MeterName = AddMeters.id
+	inner join Branch on AddMeters.Branch_id = Branch.id
+WHERE MetersReading.MeterName = 2
 ORDER BY Reading
 
+Go
+create or alter procedure ShowItem(@MeterName int,@branch_name varchar(50))
+AS
+BEGIN
+   
+SELECT 	
+  MetersReading.MeterName,
+  AddMeters.MeterName1,
+  Mdate,
+  Reading,
+  Branch.branch_name,
+  LAG(Reading,1,0) OVER (ORDER BY Mdate ) AS previous_day,
+  Reading - LAG(Reading,1,Reading) OVER (ORDER BY MetersReading.MeterName ) AS units
+FROM MetersReading inner join AddMeters on  MetersReading.MeterName = AddMeters.id
+	inner join Branch on AddMeters.Branch_id = Branch.id
+WHERE MetersReading.MeterName = @MeterName and branch_name = @branch_name ORDER BY Reading
+
+END
+
+
+
+SELECT Mdate, MeterName, Sum(80) AS SumOfTempColumn
+FROM MetersReading
+WHERE MeterName = 2
+GROUP BY MeterName, Mdate;
 
 SELECT 	
   MeterName,

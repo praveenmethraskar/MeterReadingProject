@@ -27,7 +27,7 @@ namespace MeterReadingProject.Repository
 
                 sqlConnection.Open();
                 
-                command.Parameters.AddWithValue("@MeterName", addMeters.MeterName);
+                command.Parameters.AddWithValue("@MeterName1", addMeters.MeterName);
                 command.Parameters.AddWithValue("@Branch_id", addMeters.BranchName);
                 command.Parameters.AddWithValue("@Region_id", addMeters.RegionName);
                 command.Parameters.AddWithValue("@cluster_id", addMeters.ClusterName);

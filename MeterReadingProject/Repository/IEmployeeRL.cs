@@ -14,7 +14,8 @@ namespace MeterReadingProject.Repository
         public MetersReadingData UpdateMeterReading(MetersReadingData enterMetersReadings);
         public IEnumerable<MetersReadingData> GetAllMetersReadings(string branch_name);
         //public IEnumerable<MetersReadingData> GetAllMetersReadings(string BranchName1);
-
+        public IEnumerable<MetersReadingData> GetAllMetersReading();
+        public IEnumerable<MetersReadingData> ShowReport(string BranchName1, int MeterName);
 
     }
 }
