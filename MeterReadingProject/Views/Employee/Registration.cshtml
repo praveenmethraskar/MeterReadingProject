@@ -1,0 +1,109 @@
+﻿@model MeterReadingProject.Models.EmployeeRegistrationModel
+
+@{
+    ViewData["Title"] = "Registration";
+}
+
+<link href="~/css/login.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/css/bootstrap.min.css" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" />
+<link href="https://fonts.googleapis.com/css?family=Roboto" />
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 col-md-2"></div>
+        <div class="col-lg-6 col-md-8 login-box">
+            <div class="col-lg-12 login-title">
+                Sign In
+            </div>
+
+            <div class="col-lg-12 login-form">
+                <div class="col-lg-12 login-form">
+        <form asp-action="Registration">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Emp_Code" class="form-control-label">Emp Code</label>
+                <input asp-for="Emp_Code" class="form-control" />
+                <span asp-validation-for="Emp_Code" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="form-control-label">User Name</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="form-control-label">Email</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password"  type="password" class="form-control-label">Password</label>
+                <input asp-for="Password" class="form-control"  />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConfirmPassword" type="password" class="form-control-label">Confirm Password</label>
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Emp_designation" class="form-control-label">Employee Designation</label>
+                <input asp-for="Emp_designation" class="form-control" />
+                <span asp-validation-for="Emp_designation" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BranchName" class="form-control-label">Branch Name</label>
+                @*<input asp-for="BranchName" class="form-control" />*@
+                @Html.DropDownListFor(m => m.BranchName , new List<SelectListItem> {
+                new SelectListItem { Text ="Ahemdabad" , Value="1" },
+                new SelectListItem { Text ="Jodhpur" , Value="2" },
+                new SelectListItem { Text="Hyderabad",Value="3"},
+                new SelectListItem { Text="Mumbai",Value="4"},
+                new SelectListItem { Text="Amaravati",Value="5"}
+
+                },"--select Role --", new { @class = "form-control" })
+                <span asp-validation-for="BranchName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RegionName" class="form-control-label">Region Name</label>
+                @*<input asp-for="RegionName" class="form-control" />*@
+                @Html.DropDownListFor(m => m.RegionName , new List<SelectListItem> {
+                new SelectListItem { Text ="Telangana" , Value="1" },
+                new SelectListItem { Text ="Maharastra" , Value="2" },
+                new SelectListItem { Text="AndhraPradesh",Value="3"},
+                new SelectListItem { Text="Rajasthan",Value="4"},
+                new SelectListItem { Text="Gujarat",Value="5"}
+
+                },"--select Role --", new { @class = "form-control" })
+                <span asp-validation-for="RegionName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClusterName" class="form-control-label">Cluster name</label>
+               @* <input asp-for="ClusterName" class="form-control" />*@
+                @Html.DropDownListFor(m => m.ClusterName , new List<SelectListItem> {
+                new SelectListItem { Text ="North" , Value="1" },
+                new SelectListItem { Text ="South" , Value="2" }
+                },"--select Role --", new { @class = "form-control" })
+                <span asp-validation-for="ClusterName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Role" class="form-control-label"></label>
+                @Html.DropDownListFor(m => m.Role , new List<SelectListItem> {
+                new SelectListItem { Text ="Admin" , Value="1" },
+                new SelectListItem { Text ="Employee" , Value="2" },
+                new SelectListItem { Text ="BranchManager" , Value="3" }
+                },"--select Role --", new { @class = "form-control" })
+                <span asp-validation-for="Role" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-outline-primary" />
+            </div>
+        </form>
+                </div>
+                <div class="col-lg-12 col-md-12"><a asp-action="Login"> Login</a></div>
+            </div>
+            
+        </div>
+    </div>

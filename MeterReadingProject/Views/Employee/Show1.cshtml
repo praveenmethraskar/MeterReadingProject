@@ -1,0 +1,149 @@
+﻿@using Microsoft.AspNetCore.Http;
+@*@model MeterReadingProject.Models.MetersReadingData*@
+@model IEnumerable<MeterReadingProject.Models.MetersReadingData>
+@{
+    ViewBag.Title = "Show1";
+    var displayedMeterNames = new List<int>();
+}
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link href="~/css/Dashboard.css" rel="stylesheet" />
+<link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+
+<div class="sidebar active">
+    <div class="logo_content">
+        <div class="logo">
+            <i class='bx bxl-c-plus-plus' style="font-size: 30px;"></i>
+            <div class="logoname" style="margin-left: 5px;">Meter Reading</div>
+        </div>
+        <i class='bx bx-menu-alt-right' id="btn" style="font-size: 25px;"></i>
+    </div>
+    <ul class="nav_list">
+        <li>
+
+            <i class='bx bx-search'></i>
+            <input type="text" placeholder="Search...">
+            <span class="tooltip">Search</span>
+        </li>
+        <li>
+            <a href="#">
+                <i class='bx bx-grid-alt'></i>
+                <span class="link_names">Dashboard</span>
+            </a>
+            <span class="tooltip">Dashboard</span>
+        </li>
+        <li>
+            <a href="https://localhost:44355/Employee/AddMeters">
+                <i class='bx bx-user'></i>
+                <span class="link_names">Add Meters</span>
+            </a>
+            <span class="tooltip">Add Meters</span>
+        </li>
+        <li>
+            <a href="https://localhost:44355/Employee/meters">
+                <i class='bx bx-chat'></i>
+                <span class="link_names">Add Meter Readings</span>
+            </a>
+            <span class="tooltip">Add Meter Readings</span>
+        </li>
+        <li>
+            <a href="https://localhost:44355/Employee/ListMeterReading">
+                <i class='bx bx-pie-chart-alt-2'></i>
+                <span class="link_names">List Meter Readings</span>
+            </a>
+            <span class="tooltip">Report</span>
+        </li>
+
+    </ul>
+    <div class="profile_content">
+        <div class="profile">
+            <div class="profile_details">
+
+                <div class="name_job">
+                    <div class="name">@Context.Session.GetString("Email")</div>
+                    <div class="job">@Context.Session.GetString("RoleName")</div>
+                </div>
+            </div>
+            <a asp-action="Logout"> <i class='bx bx-log-out' id="log_out"></i></a>
+        </div>
+    </div>
+</div>
+<div class="home_content">
+    <div class="text">
+
+        <div>
+
+            @foreach (var item in ViewBag.Model)
+            {
+                if (!displayedMeterNames.Contains(item.MeterName))
+                {
+                    <div class="form-group pull-right">
+                        @using (Html.BeginForm("Export1", "Employee", new { id = item.MeterName }, FormMethod.Post))
+                        {
+                            <input type="submit" value="Export" class="btn btn-sucess" />
+                        }
+                    </div>
+                    displayedMeterNames.Add(item.MeterName);
+                }
+            }
+            <!--Table-->
+            <table class="table table-striped w-auto">
+
+                <!--Table head-->
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.date)</th>
+                        <th> @Html.DisplayNameFor(model => model.MeterName)</th>
+                        <th> @Html.DisplayNameFor(model => model.MeterReading)</th>
+                        <th> @Html.DisplayNameFor(model => model.BranchName)</th>
+                        <th>@Html.DisplayNameFor(model => model.units)</th>
+                        <th>Price</th>
+
+                    </tr>
+                </thead>
+                <!--Table head-->
+                <!--Table body-->
+                <tbody>
+
+                    @foreach (var item in ViewBag.Model)
+                    {
+                        <tr class="table-info">
+
+                            <td> @item.date </td>
+                            <td> @item.MeterName1</td>
+                            <td> @item.MeterReading</td>
+                            <td> @item.BranchName1</td>
+                            <td>
+                                @item.units
+                            </td>
+                            <td>
+                                Rs @(@item.units * 5)/-
+                            </td>
+                        </tr>
+                    }
+
+
+                </tbody>
+                <!--Table body-->
+
+
+            </table>
+            <!--Table-->
+
+        </div>
+
+    </div>
+
+
+</div>
+<script>
+    let btn = document.querySelector("#btn");
+    let sidebar = document.querySelector(".sidebar");
+    let searchBtn = document.querySelector(".bx-search")
+
+    btn.onclick = function () {
+        sidebar.classList.toggle("active");
+    }
+    searchBtn.onclick = function () {
+        sidebar.classList.toggle("active");
+    }
+</script>
